@@ -45,10 +45,18 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <h5>Are you sure you want to logout?</h5>
+                            <?php if (!isset($_SESSION["timeout_flag"]) && strpos($username, "@staff") == true) { ?>
+                                <h5>You Need To Time out first before you log out</h5>
+                            <?php } else { ?>
+                                <h5>Are you sure you want to logout?</h5>
+                            <?php } ?>
                         </div>
                         <div class="modal-footer">
-                            <a href="../index.php" type="submit" class="btn btn-success">Confirm</a>
+                            <?php if (!isset($_SESSION["timeout_flag"]) && strpos($username, "@staff") == true) { ?>
+                                <!-- <a href="../index.php" type="submit" class="btn btn-success">Confirm</a> -->
+                            <?php } else { ?>
+                                <a href="../index.php" type="submit" class="btn btn-success">Confirm</a>
+                            <?php } ?>
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </div>
@@ -114,25 +122,6 @@
                                                 name="password">
                                         </div>
                                     </div>
-                                    <!-- <div class="d-flex flex-row">
-                                        <h4 class="fw-bold px-1">
-                                            Change Password
-                                        </h4>
-                                    </div>
-                                    <div class="d-flex flex-row mb-3">
-                                        <div class="col px-1">
-                                            <p class="mb-0 fw-bold">New Password:</p>
-                                            <input type="password" class="form-control" name="new_password" required
-                                                value="">
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-row mb-3">
-                                        <div class="col px-1">
-                                            <p class="mb-0 fw-bold">Re-type New Password:</p>
-                                            <input type="password" class="form-control" name="retype_password" required
-                                                value="">
-                                        </div>
-                                    </div> -->
                                 </div>
                             </div>
                             <div class="modal-footer">

@@ -19,16 +19,18 @@ if (isset($_POST['btn_timein'])) {
     $row = $result->fetch_assoc();
     $workhours = $row["workhours"];
 
-    $startwork = '9:00 AM';
+    $startwork = '9:00:00';
     // Convert start work time to a timestamp
     $startwork_timestamp = strtotime($startwork);
 
     $currentDate = date("Y-m-d");
     $currentTime = date("H:i:s");
 
-    if ($currentTime <= $startwork_timestamp) {
+    if ($startwork_timestamp <= $currentTime) {
+        //1 is present
         $status = 1;
-    } else if ($currentTime > $startwork_timestamp) {
+    } else if ($startwork_timestamp > $currentTime) {
+        //2 is late
         $status = 2;
     }
 

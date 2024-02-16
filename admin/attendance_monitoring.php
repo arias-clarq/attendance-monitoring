@@ -73,7 +73,7 @@ $result = $conn->query($attendanceSql);
                 <div class="col">
                     <label for="">Sort By Status</label>
                     <select name="status" class="form-select">
-                        <option selected>Select a Section</option>
+                        <option disabled selected>Select a Section</option>
                         <option value="1">PRESENT</option>
                         <option value="2">LATE</option>
                         <option value="3">ABSENT</option>
