@@ -8,7 +8,7 @@ if ($_SESSION["token"] !== true) {
 ?>
 
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Attendance Monitoring</h1>
+    <h1 class="text-center mb-4">Attendance Report</h1>
 </div>
 
 
