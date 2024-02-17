@@ -14,27 +14,27 @@ if (isset($_POST['btn_timein'])) {
     $staffID = $_SESSION['userID'];
     $workhoursID = $_SESSION['workhoursID'];
 
-    $getWorkhours = "SELECT tbl_workhours.workhours FROM `tbl_staff` INNER JOIN tbl_workhours ON tbl_staff.workhoursID = tbl_workhours.workhoursID WHERE `staffID` = {$staffID}";
+    $getWorkhours = "SELECT tbl_workhours.workhours, tbl_staff.shift_start FROM `tbl_staff` INNER JOIN tbl_workhours ON tbl_staff.workhoursID = tbl_workhours.workhoursID WHERE `staffID` = {$staffID}";
     $result = $conn->query($getWorkhours);
     $row = $result->fetch_assoc();
     $workhours = $row["workhours"];
 
-    $startwork = '9:00:00';
+    $startwork = $row["shift_start"];
     // Convert start work time to a timestamp
     $startwork_timestamp = strtotime($startwork);
 
     $currentDate = date("Y-m-d");
     $currentTime = date("H:i:s");
 
-    if ($startwork_timestamp <= $currentTime) {
+    $currentTime_timestamp = strtotime($currentTime);
+
+    if ($startwork_timestamp >= $currentTime_timestamp) {
         //1 is present
         $status = 1;
-    } else if ($startwork_timestamp > $currentTime) {
+    } else if ($startwork_timestamp < $currentTime_timestamp) {
         //2 is late
         $status = 2;
     }
-
-    echo $status;
 
     $timeinSql = "INSERT INTO `tbl_attendance`(`staffID`, `date`, `timeIn`, `statusID`, `workhoursID`) 
     VALUES (

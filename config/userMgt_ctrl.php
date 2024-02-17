@@ -9,6 +9,7 @@ if (isset($_POST["btn_add"])) {
     } else if ($_POST["position"] == 2) {
         $position = '@staff';
         $workhoursID = $_POST["workhours"];
+        $start_shift = $_POST["start_shift"];
         $_SESSION["userMsg"] = "Staff addition completed successfully.";
     }
     $username = $_POST['new_username'] . $position;
@@ -17,7 +18,7 @@ if (isset($_POST["btn_add"])) {
     if ($_POST["position"] == 1) {
         $addSql = "INSERT INTO `tbl_users`(`username`, `password`) VALUES ('{$username}','$password')";
     } else if ($_POST["position"] == 2) {
-        $addSql = "INSERT INTO `tbl_staff`(`username`, `password`, `workhoursID`) VALUES ('{$username}','{$password}','{$workhoursID}')";
+        $addSql = "INSERT INTO `tbl_staff`(`username`, `password`, `workhoursID`,`shift_start`) VALUES ('{$username}','{$password}','{$workhoursID}','{$start_shift}')";
     }
 
 
@@ -38,6 +39,7 @@ if (isset($_POST["btn_edit"])) {
         $_SESSION["userMsg"] = "Admin information updated successfully.";
     } else if ($_POST["position"] == 2) {
         $position = '@staff';
+        $start_shift = $_POST["start_shift"];
         $workhoursID = $_POST["workhours"];
         $_SESSION["userMsg"] = "Staff information updated successfully.";
     }
@@ -48,7 +50,7 @@ if (isset($_POST["btn_edit"])) {
     if ($_POST["position"] == 1) {
         $editSql = "UPDATE `tbl_users` SET `username`='{$username}',`password`='{$password }' WHERE `userID` = {$id}";
     } else if ($_POST["position"] == 2) {
-        $editSql = "UPDATE `tbl_staff` SET `username`='{$username}',`password`='{$password }',`workhoursID`='{$workhoursID}' WHERE `staffID` = {$id}";
+        $editSql = "UPDATE `tbl_staff` SET `username`='{$username}',`password`='{$password }',`workhoursID`='{$workhoursID}',`shift_start`='{$start_shift}' WHERE `staffID` = {$id}";
     }
 
 

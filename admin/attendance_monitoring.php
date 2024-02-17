@@ -96,6 +96,7 @@ $result = $conn->query($attendanceSql);
                 <th>TimeOut</th>
                 <th>Status</th>
                 <th>Workhours</th>
+                <th>Start Shift</th>
                 <th>WorkTime_Status</th>
             </tr>
         </thead>
@@ -104,6 +105,7 @@ $result = $conn->query($attendanceSql);
             while ($row = $result->fetch_assoc()) {
                 $timein = strtotime($row['timeIn']);
                 $timeout = strtotime($row['timeOut']);
+                $shift = strtotime($row['shift_start']);
             ?>
                 <tr>
                     <td>
@@ -127,6 +129,9 @@ $result = $conn->query($attendanceSql);
                     </td>
                     <td>
                         <?= $row['workhours'] ?> Hours
+                    </td>
+                    <td>
+                        <?= date('h:i A', $shift)?>
                     </td>
                     <td>
                         <?= $row['worktime_status'] ?>
