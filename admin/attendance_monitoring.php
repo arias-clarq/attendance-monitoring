@@ -143,7 +143,7 @@ $result = $conn->query($attendanceSql);
             ?>
             <?php if ($result->num_rows == 0) { ?>
                 <tr>
-                    <td colspan="8" class="text-center"> No Result Found</td>
+                    <td colspan="9" class="text-center"> No Result Found</td>
                 </tr>
             <?php } ?>
         </tbody>
