@@ -122,7 +122,13 @@ $result = $conn->query($attendanceSql);
                         <?= date('h:i A', $timein) ?>
                     </td>
                     <td>
-                        <?= date('h:i A', $timeout) ?>
+                        <?php
+                        if($row['timeOut'] != null){
+                           echo date('h:i A', $timeout);
+                        }else{
+                            echo "PENDING";
+                        }
+                         ?>
                     </td>
                     <td>
                         <?= $row['status'] ?>

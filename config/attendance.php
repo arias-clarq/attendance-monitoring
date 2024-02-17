@@ -4,74 +4,86 @@ include_once("dbcon.php");
 date_default_timezone_set('Asia/Manila');
 
 if (isset($_POST['btn_timein'])) {
+    $staffID = $_SESSION['userID'];
+    $workhoursID = $_SESSION['workhoursID'];
+    $currentDate = date("Y-m-d");
+    $checkSql = "SELECT * FROM `tbl_attendance` WHERE `staffID` = {$staffID} AND `date` = '{$currentDate}'";
+    echo $checkSql;
+    $check = $conn->query($checkSql);
 
-    //a function to prevent a staff clicking time in button again
-    if (isset($_SESSION["attendanceID"])) {
+    if ($check->num_rows > 0) {
         $_SESSION["error_msg"] = "You already time in for today";
         header("location: ../admin/dashboard.php");
         exit();
-    }
-    $staffID = $_SESSION['userID'];
-    $workhoursID = $_SESSION['workhoursID'];
+    } 
+    else {
+        $getWorkhours = "SELECT tbl_workhours.workhours, tbl_staff.shift_start FROM `tbl_staff` INNER JOIN tbl_workhours ON tbl_staff.workhoursID = tbl_workhours.workhoursID WHERE `staffID` = {$staffID}";
+        $result = $conn->query($getWorkhours);
+        $row = $result->fetch_assoc();
+        $workhours = $row["workhours"];
 
-    $getWorkhours = "SELECT tbl_workhours.workhours, tbl_staff.shift_start FROM `tbl_staff` INNER JOIN tbl_workhours ON tbl_staff.workhoursID = tbl_workhours.workhoursID WHERE `staffID` = {$staffID}";
-    $result = $conn->query($getWorkhours);
-    $row = $result->fetch_assoc();
-    $workhours = $row["workhours"];
+        $startwork = $row["shift_start"];
+        // Convert start work time to a timestamp
+        $startwork_timestamp = strtotime($startwork);
+        
+        $currentTime = date("H:i:s");
 
-    $startwork = $row["shift_start"];
-    // Convert start work time to a timestamp
-    $startwork_timestamp = strtotime($startwork);
+        $currentTime_timestamp = strtotime($currentTime);
 
-    $currentDate = date("Y-m-d");
-    $currentTime = date("H:i:s");
+        if ($startwork_timestamp >= $currentTime_timestamp) {
+            //1 is present
+            $status = 1;
+        } else if ($startwork_timestamp < $currentTime_timestamp) {
+            //2 is late
+            $status = 2;
+        }
 
-    $currentTime_timestamp = strtotime($currentTime);
+        $worktime = 4;
 
-    if ($startwork_timestamp >= $currentTime_timestamp) {
-        //1 is present
-        $status = 1;
-    } else if ($startwork_timestamp < $currentTime_timestamp) {
-        //2 is late
-        $status = 2;
-    }
-
-    $timeinSql = "INSERT INTO `tbl_attendance`(`staffID`, `date`, `timeIn`, `statusID`, `workhoursID`) 
+        $timeinSql = "INSERT INTO `tbl_attendance`(`staffID`, `date`, `timeIn`, `statusID`, `workhoursID`,`worktime_statusID`) 
     VALUES (
         '{$staffID}',
         '{$currentDate}',
         '{$currentTime}',
         '{$status}',
-        '{$workhoursID}'
+        '{$workhoursID}',
+        '{$worktime}'
         )";
 
-    $result = $conn->query($timeinSql);
+        $result = $conn->query($timeinSql);
 
-    if ($result === true) {
-        $attendanceID = $conn->insert_id;
-        $_SESSION["attendanceID"] = $attendanceID;
-        $_SESSION["success_msg"] = "Time-In Successfuly";
-        header("location: ../admin/dashboard.php");
-    } else {
-        echo "Error: " . $conn->error;
+        if ($result === true) {
+            $attendanceID = $conn->insert_id;
+            $_SESSION["attendanceID"] = $attendanceID;
+            $_SESSION["success_msg"] = "Time-In Successfuly";
+            header("location: ../admin/dashboard.php");
+        } else {
+            echo "Error: " . $conn->error;
+        }
     }
 }
 
 if (isset($_POST['btn_timeout'])) {
-    if (isset($_SESSION["timeout_flag"]) == true) {
+    $staffID = $_SESSION['userID'];
+    $workhoursID = $_SESSION['workhoursID'];
+    $currentDate = date("Y-m-d");
+
+    $checkSql = "SELECT * FROM `tbl_attendance` WHERE `staffID` = {$staffID} AND `date` = '{$currentDate}' And `timeOut` IS NOT NULL";
+    $check = $conn->query($checkSql);
+
+    if ($check->num_rows > 0) {
         $_SESSION["error_msg"] = "You already time out for today";
         header("location: ../admin/dashboard.php");
         exit();
-    }
+    } 
 
-    if (!isset($_SESSION["attendanceID"])) {
+    $check2Sql = "SELECT * FROM `tbl_attendance` WHERE `staffID` = {$staffID} AND `date` = '{$currentDate}'";
+    $check2 = $conn->query($check2Sql);
+    if ($check2->num_rows == 0) {
         $_SESSION["error_msg"] = "You need to time in first";
         header("location: ../admin/dashboard.php");
         exit();
     }
-
-    $staffID = $_SESSION['userID'];
-    $workhoursID = $_SESSION['workhoursID'];
 
     $currentTime = date("H:i:s");
     $attendanceID = $_SESSION["attendanceID"];

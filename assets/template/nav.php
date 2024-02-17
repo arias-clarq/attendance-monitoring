@@ -9,35 +9,29 @@
                 <?php
                 $username = $_SESSION['username'];
                 if (strpos($username, "@admin") == true) {
-                    ?>
+                ?>
                     <li class="nav-item">
-                        <a class="nav-link me-3" href="users_mgt.php"><i class="fa-solid fa-users fa-xl"
-                                data-bs-toggle="tooltip" data-bs-placement="left" title="Users Management"></i></a>
+                        <a class="nav-link me-3" href="users_mgt.php"><i class="fa-solid fa-users fa-xl" data-bs-toggle="tooltip" data-bs-placement="left" title="Users Management"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link me-3" href="attendance_monitoring.php"><i
-                                class="fa-solid fa-clipboard-user fa-2xl" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Attendance Monitoring"></i></a>
+                        <a class="nav-link me-3" href="attendance_monitoring.php"><i class="fa-solid fa-clipboard-user fa-2xl" data-bs-toggle="tooltip" data-bs-placement="left" title="Attendance Monitoring"></i></a>
                     </li>
                 <?php } ?>
                 <?php if (strpos($username, "@staff") == true) { ?>
                     <li class="nav-item">
                         <button class="btn nav-link" data-bs-toggle="modal" data-bs-target="#profileModal">
-                            <i class="fa-solid fa-user fa-xl" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Profile"></i>
+                            <i class="fa-solid fa-user fa-xl" data-bs-toggle="tooltip" data-bs-placement="left" title="Profile"></i>
                         </button>
                     </li>
                 <?php } ?>
             </ul>
 
             <button class="btn bottom-icon" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                <i class="fa-solid fa-lg fa-right-from-bracket text-danger" data-bs-toggle="tooltip"
-                    data-bs-placement="left" title="Logout"></i>
+                <i class="fa-solid fa-lg fa-right-from-bracket text-danger" data-bs-toggle="tooltip" data-bs-placement="left" title="Logout"></i>
             </button>
 
             <!-- Logout Modal -->
-            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true"
-                data-bs-backdrop="static">
+            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -45,18 +39,14 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <?php if (!isset($_SESSION["timeout_flag"]) && strpos($username, "@staff") == true) { ?>
-                                <h5>You Need To Time out first before you log out</h5>
-                            <?php } else { ?>
-                                <h5>Are you sure you want to logout?</h5>
-                            <?php } ?>
+                            <h5>Are you sure you want to logout?</h5>
                         </div>
                         <div class="modal-footer">
-                            <?php if (!isset($_SESSION["timeout_flag"]) && strpos($username, "@staff") == true) { ?>
-                                <!-- <a href="../index.php" type="submit" class="btn btn-success">Confirm</a> -->
-                            <?php } else { ?>
-                                <a href="../index.php" type="submit" class="btn btn-success">Confirm</a>
-                            <?php } ?>
+
+                            <!-- <a href="../index.php" type="submit" class="btn btn-success">Confirm</a> -->
+
+                            <a href="../index.php" type="submit" class="btn btn-success">Confirm</a>
+
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </div>
@@ -70,8 +60,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="loginModalLabel">Staff Profile</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <?php
@@ -89,37 +78,31 @@
                                     <div class="row px-2 mb-3">
                                         <div class="col-md-12 col-lg-4 px-1">
                                             <p class="fw-bold mb-0">First Name:</p>
-                                            <input type="text" class="form-control" placeholder="Enter Firstname"
-                                                value="<?= $staffrow['Fname'] ?>" name="Fname">
+                                            <input type="text" class="form-control" placeholder="Enter Firstname" value="<?= $staffrow['Fname'] ?>" name="Fname">
                                         </div>
                                         <div class="col-md-12 col-lg-4 px-1">
                                             <p class="fw-bold mb-0">Middle Name:</p>
-                                            <input type="text" class="form-control" placeholder="Enter Middlename"
-                                                value="<?= $staffrow['Mname'] ?>" name="Mname">
+                                            <input type="text" class="form-control" placeholder="Enter Middlename" value="<?= $staffrow['Mname'] ?>" name="Mname">
                                         </div>
                                         <div class="col-md-12 col-lg-4 px-1">
                                             <p class="fw-bold mb-0">Last Name:</p>
-                                            <input type="text" class="form-control" placeholder="Enter Lastname"
-                                                value="<?= $staffrow['Lname'] ?>" name="Lname">
+                                            <input type="text" class="form-control" placeholder="Enter Lastname" value="<?= $staffrow['Lname'] ?>" name="Lname">
                                         </div>
                                     </div>
                                     <div class="row px-2 mb-3">
                                         <div class="col-md-12 col-lg-4 px-1">
                                             <p class="fw-bold mb-0">Phone Number:</p>
-                                            <input type="text" class="form-control" placeholder="Enter phone number"
-                                                value="<?= $staffrow['contactNo'] ?>" name="contact">
+                                            <input type="text" class="form-control" placeholder="Enter phone number" value="<?= $staffrow['contactNo'] ?>" name="contact">
                                         </div>
                                         <div class="col-md-12 col-lg-8 px-1">
                                             <p class="fw-bold mb-0">Email Address:</p>
-                                            <input type="text" class="form-control" placeholder="Enter email"
-                                                value="<?= $staffrow['email'] ?>" name="email">
+                                            <input type="text" class="form-control" placeholder="Enter email" value="<?= $staffrow['email'] ?>" name="email">
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row mb-3">
                                         <div class="col px-1">
                                             <p class="fw-bold mb-0">Password:</p>
-                                            <input type="text" class="form-control" value="<?= $staffrow['password'] ?>"
-                                                name="password">
+                                            <input type="text" class="form-control" value="<?= $staffrow['password'] ?>" name="password">
                                         </div>
                                     </div>
                                 </div>
