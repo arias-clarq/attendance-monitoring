@@ -6,6 +6,11 @@ if ($_SESSION["token"] !== true) {
     header("location: ../index.php");
 }
 ?>
+<style>
+    .today {
+        background-color: greenyellow;
+    }
+</style>
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">Attendance Report</h1>
@@ -102,47 +107,55 @@ $result = $conn->query($attendanceSql);
         </thead>
         <tbody>
             <?php
+            $currentDate = date("Y-m-d");
             while ($row = $result->fetch_assoc()) {
                 $timein = strtotime($row['timeIn']);
                 $timeout = strtotime($row['timeOut']);
                 $shift = strtotime($row['shift_start']);
+                if ($currentDate == $row['date']) {
+                    $today = "today";
+                } else {
+                    $today = "";
+                }
             ?>
-                <tr>
-                    <td>
-                        <?= $count ?>
-                    </td>
-                    <td>
-                        <?= $row['username'] ?>
-                    </td>
-                    <td>
-                        <?= date('F j, Y', strtotime($row['date'])) ?> |
-                        <?= date('l', strtotime($row['date'])) ?>
-                    </td>
-                    <td>
-                        <?= date('h:i A', $timein) ?>
-                    </td>
-                    <td>
-                        <?php
-                        if($row['timeOut'] != null){
-                           echo date('h:i A', $timeout);
-                        }else{
-                            echo "PENDING";
-                        }
-                         ?>
-                    </td>
-                    <td>
-                        <?= $row['status'] ?>
-                    </td>
-                    <td>
-                        <?= $row['workhours'] ?> Hours
-                    </td>
-                    <td>
-                        <?= date('h:i A', $shift)?>
-                    </td>
-                    <td>
-                        <?= $row['worktime_status'] ?>
-                    </td>
-                </tr>
+                <div class="<?=$today?>">
+                    <tr>
+                        <td>
+                            <?= $count ?>
+                        </td>
+                        <td>
+                            <?= $row['username'] ?>
+                        </td>
+                        <td>
+                            <?= date('F j, Y', strtotime($row['date'])) ?> |
+                            <?= date('l', strtotime($row['date'])) ?>
+                        </td>
+                        <td>
+                            <?= date('h:i A', $timein) ?>
+                        </td>
+                        <td>
+                            <?php
+                            if ($row['timeOut'] != null) {
+                                echo date('h:i A', $timeout);
+                            } else {
+                                echo "PENDING";
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <?= $row['status'] ?>
+                        </td>
+                        <td>
+                            <?= $row['workhours'] ?> Hours
+                        </td>
+                        <td>
+                            <?= date('h:i A', $shift) ?>
+                        </td>
+                        <td>
+                            <?= $row['worktime_status'] ?>
+                        </td>
+                    </tr>
+                </div>
             <?php
                 $count++;
             }
