@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 16, 2024 at 07:43 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Generation Time: Feb 17, 2024 at 08:55 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,7 +35,7 @@ CREATE TABLE `tbl_attendance` (
   `timeOut` time DEFAULT NULL,
   `statusID` int(200) NOT NULL,
   `workhoursID` int(200) NOT NULL,
-  `worktime_statusID` int(200) NOT NULL
+  `worktime_statusID` int(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `tbl_attendance` (
 --
 
 INSERT INTO `tbl_attendance` (`attendanceID`, `staffID`, `date`, `timeIn`, `timeOut`, `statusID`, `workhoursID`, `worktime_statusID`) VALUES
-(37, 2, '2024-02-16', '14:41:21', '14:41:41', 2, 1, 3);
+(12, 9, '2024-02-17', '15:54:53', '15:55:00', 2, 1, 3);
 
 --
 -- Triggers `tbl_attendance`
@@ -100,16 +100,20 @@ CREATE TABLE `tbl_staff` (
   `Lname` varchar(200) NOT NULL,
   `contactNo` bigint(200) NOT NULL,
   `email` varchar(200) NOT NULL,
-  `workhoursID` int(200) NOT NULL
+  `workhoursID` int(200) NOT NULL,
+  `shift_start` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_staff`
 --
 
-INSERT INTO `tbl_staff` (`staffID`, `username`, `password`, `Fname`, `Mname`, `Lname`, `contactNo`, `email`, `workhoursID`) VALUES
-(2, 'clarq@staff', 'arias', 'clarq', 'pangan', 'arias', 9123456789, 'clarq@gmail.com', 1),
-(5, 'james@staff', 'james', 'Mark James', '', 'Montoya', 0, '', 1);
+INSERT INTO `tbl_staff` (`staffID`, `username`, `password`, `Fname`, `Mname`, `Lname`, `contactNo`, `email`, `workhoursID`, `shift_start`) VALUES
+(2, 'clarq@staff', 'arias', 'clarq', 'pangan', 'arias', 9123456789, 'clarq@gmail.com', 1, '09:00:00'),
+(5, 'james@staff', 'james', 'Mark James', '', 'Montoya', 0, '', 1, '08:30:00'),
+(9, 'noel@staff', 'noel', 'noel', '', '', 0, '', 1, '10:30:00'),
+(10, 'marshiella@staff', 'marshiella', '', '', '', 0, '', 1, '19:00:00'),
+(11, 'angeline@staff', 'angeline', '', '', '', 0, '', 1, '22:00:00');
 
 -- --------------------------------------------------------
 
@@ -149,8 +153,7 @@ CREATE TABLE `tbl_users` (
 
 INSERT INTO `tbl_users` (`userID`, `username`, `password`) VALUES
 (1, 'admin@admin', 'admin'),
-(20, 'clarq@admin', 'arias'),
-(25, 'james@admin', 'james');
+(20, 'clarq@admin', 'arias');
 
 -- --------------------------------------------------------
 
@@ -189,7 +192,8 @@ CREATE TABLE `tbl_worktime_status` (
 INSERT INTO `tbl_worktime_status` (`worktime_statusID`, `worktime_status`) VALUES
 (1, 'NORMAL'),
 (2, 'OVERTIME'),
-(3, 'UNDERTIME');
+(3, 'UNDERTIME'),
+(4, 'WORKING');
 
 --
 -- Indexes for dumped tables
@@ -245,7 +249,7 @@ ALTER TABLE `tbl_worktime_status`
 -- AUTO_INCREMENT for table `tbl_attendance`
 --
 ALTER TABLE `tbl_attendance`
-  MODIFY `attendanceID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `attendanceID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_position`
@@ -257,7 +261,7 @@ ALTER TABLE `tbl_position`
 -- AUTO_INCREMENT for table `tbl_staff`
 --
 ALTER TABLE `tbl_staff`
-  MODIFY `staffID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `staffID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_status`
@@ -281,7 +285,7 @@ ALTER TABLE `tbl_workhours`
 -- AUTO_INCREMENT for table `tbl_worktime_status`
 --
 ALTER TABLE `tbl_worktime_status`
-  MODIFY `worktime_statusID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `worktime_statusID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

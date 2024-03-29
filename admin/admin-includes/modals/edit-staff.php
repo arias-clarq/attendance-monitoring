@@ -44,6 +44,10 @@ $filteredUsername = str_replace(['@admin', '@staff'], '', $row['username']);
                             <?php } ?>
                         </select>
                     </div>
+                    <label for="">Start Shift:</label>
+                    <div class="input-group mb-2">
+                        <input type="time" class="form-control" name="start_shift" value="<?= $row['shift_start'] ?>">
+                    </div>
                     <input type="hidden" name="id" value="<?= $row['staffID'] ?>">
                 </div>
 
